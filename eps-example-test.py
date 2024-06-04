@@ -33,7 +33,7 @@ def safe_shutdown():
     time.sleep(1)
     sys.exit(0)
 
-eps_lib = ctypes.CDLL(f"{OBJ_DIR}/eps_lib.so")
+eps_lib = ctypes.CDLL(f"{os.getcwd()}/objects/eps_lib.so")
 
 start_handling_events_thread()
 start_metrics_thread()

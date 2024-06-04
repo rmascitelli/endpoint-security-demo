@@ -20,7 +20,7 @@ create_eps_so:
 
 create_py_exe:
 	pyinstaller --onefile ${EPS_EXE}.py
-	codesign -f --entitlement sentries.plist -s - ${PY_BUILD_DIR}/${EPS_EXE}
+	codesign -f --entitlement entitlements.plist -s - ${PY_BUILD_DIR}/${EPS_EXE}
 	${CHECK_EPS_ENTITLE}
 	rm ${EPS_EXE}.spec
 

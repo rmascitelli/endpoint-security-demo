@@ -13,73 +13,15 @@
 #include <sys/stat.h> 
 #include <fcntl.h>
 
-// creationData → st_ctime
-// lastModifiedDate → st_mtime
-// lastAccessDate → st_atime
-// size → st_size
-// permissions → st_mode
-// uid → st_uid
-// gid → st_gid
-
-
-// struct file_metadata get_file_metadata(char filepath[ARR_SIZE]) {
-
-// }
-
 std::queue<struct proc_start_payload> g_q;
 std::mutex g_q_mutex;
 bool g_stop = false;
-
-struct file_metadata get_file_metadata(char *filepath) {
-    int fd = 0; 
-    file_metadata ret = *(new file_metadata());
-    struct stat st; 
-    fd = open(filepath, O_RDONLY); 
-    if(-1 == fd) 
-    { 
-        printf("\n NULL File descriptor\n"); 
-        return ret; 
-    } 
- 
-    // set the errno to default value 
-    errno = 0; 
-    if(fstat(fd, &st)) 
-    { 
-        printf("\nfstat error: [%s]\n",strerror(errno)); 
-        close(fd); 
-        return ret; 
-    } 
-
-    printf("Creating file metadata\n");
-    
-    ret.creation_date =         1000;   //st.buf.st_ctime;
-    ret.last_modified_date =    2000;   //st.buf.st_mtime;
-    ret.last_access_date =      3000;   //st.buf.st_atime;
-    ret.size =                  50;     //st.buf.st_size;
-    memset(ret.permissions, 0, sizeof(ret.permissions));
-    sprintf(ret.permissions, "-rwxrwxrwx");
-    ret.uid =                   123;    //st.buf.st_uid;
-    ret.gid =                   543;    //st.buf.st_gid;
- 
-    close(fd); 
-    return ret;
-}
 
 struct proc_start_payload build_proc_start_payload(const es_message_t *msg) {
     struct proc_start_payload payload;
     strcpy(payload.exe_path, msg->process->executable->path.data);
     payload.pid = audit_token_to_pid(msg->process->audit_token);
     payload.ppid = msg->process->ppid;
-    //get_file_metadata("");
-    return payload;
-}
-
-struct proc_start_payload get_fake_payload() {
-    struct proc_start_payload payload;
-    strcpy(payload.exe_path, "fakePath");
-    payload.pid = 12345;
-    payload.ppid = 54321;
-    printf("Returning %s\n", payload.exe_path);
     return payload;
 }
 

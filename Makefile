@@ -3,6 +3,7 @@ GPP = g++
 EPS_EXE = eps-example-test
 PY_BUILD_DIR = dist
 OBJECT_DIR = objects
+BUILD_DIR = build
 LIBS_DIR = libs
 
 LD_SHARED_LIBS = -lEndpointSecurity -lbsm
@@ -29,8 +30,8 @@ cpp_scratch:
 	${GPP} -fPIC -shared -I${LIBS_DIR} ${OBJECT_DIR}/custom_struct.so deprecated/cpp_scratch_pad.cpp -o ${OBJECT_DIR}/cpp_scratch.so
 
 clean:
-	rm -rf ${LIBS_DIR} ${OBJECT_DIR} ${PY_BUILD_DIR}
-	#rm -f ${OBJECT_DIR}/*.*o
+	rm -rf ${LIBS_DIR} ${OBJECT_DIR} ${BUILD_DIR} ${PY_BUILD_DIR}
+	rm -f ${OBJECT_DIR}/*.*o
 
 run:
 	${PY_BUILD_DIR}/${EPS_EXE}
